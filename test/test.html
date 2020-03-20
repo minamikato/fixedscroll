@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ScrollFixed TestPage</title>
+
+    <link href="test.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="data"></div>
+
+    <div class="controller condition">
+        <h1 class="condition-title">window</h1>
+        <table class="condition-table condition-window">
+            <tbody>
+                <tr>
+                    <th>scroll top</th>
+                    <td>
+                        <input type="text" class="txtScrollTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin top</th>
+                    <td>
+                        <input type="text" class="txtMarginTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding top</th>
+                    <td>
+                        <input type="text" class="txtPaddingTop" value="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1 class="condition-title">container</h1>
+        <table class="condition-table condition-container">
+            <tbody>
+                <tr>
+                    <th>use</th>
+                    <td>
+                        <input type="checkbox" class="chkUse">
+                    </td>
+                </tr>
+                <tr>
+                    <th>scroll top</th>
+                    <td>
+                        <input type="text" class="txtScrollTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin top</th>
+                    <td>
+                        <input type="text" class="txtMarginTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding top</th>
+                    <td>
+                        <input type="text" class="txtPaddingTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>border top</th>
+                    <td>
+                        <input type="text" class="txtBorderTop" value="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1 class="condition-title">sticky container</h1>
+        <table class="condition-table condition-sticky-container">
+            <tbody>
+                <tr>
+                    <th>width</th>
+                    <td>
+                        <input type="text" class="txtWidth empty" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>height</th>
+                    <td>
+                        <input type="text" class="txtHeight empty" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin top</th>
+                    <td>
+                        <input type="text" class="txtMarginTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin bottom</th>
+                    <td>
+                        <input type="text" class="txtMarginBottom" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding top</th>
+                    <td>
+                        <input type="text" class="txtPaddingTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding bottom</th>
+                    <td>
+                        <input type="text" class="txtPaddingBottom" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>border top</th>
+                    <td>
+                        <input type="text" class="txtBorderTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>border bottom</th>
+                    <td>
+                        <input type="text" class="txtBorderBottom" value="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1 class="condition-title">sticky item</h1>
+        <table class="condition-table condition-item">
+            <tbody>
+                <tr>
+                    <th>top</th>
+                    <td>
+                        <input type="text" class="txtTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>bottom</th>
+                    <td>
+                        <input type="text" class="txtBottom empty" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin top</th>
+                    <td>
+                        <input type="text" class="txtMarginTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>margin bottom</th>
+                    <td>
+                        <input type="text" class="txtMarginBottom" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding top</th>
+                    <td>
+                        <input type="text" class="txtPaddingTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>padding bottom</th>
+                    <td>
+                        <input type="text" class="txtPaddingBottom" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>border top</th>
+                    <td>
+                        <input type="text" class="txtBorderTop" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <th>border bottom</th>
+                    <td>
+                        <input type="text" class="txtBorderBottom" value="0">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="controller-footer">
+            <input type="button" onclick="update();" value="update" />
+
+            <input type="button" onclick="conditionClear();" value="clear" />
+            <input type="button" onclick="conditionDefault();" value="default" />
+
+            <hr />
+
+            <div id="scroll-controller" class="scroll-controller"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./lib/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../jquery.scrollFixed.js"></script>
+    <script type="text/javascript" src="test.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            $('.controller-footer').scrollFixed({ debug: true, stickyCss: '' });
+
+            update();
+        });
+
+    </script>
+
+</body>
+</html>

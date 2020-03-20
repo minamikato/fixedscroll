@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ScrollFixed Header Sample</title>
+
+    <style type="text/css">
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .text {
+            border: 1px solid red;
+            margin: 0;
+        }
+
+        /* header
+         *------------------------*/
+        .header {
+            background-color: dimgray;
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            opacity: 0.8;
+        }
+
+            .header > .row1 {
+                margin: 0;
+                margin-top: 30px;
+            }
+
+            .header > .row2 {
+                margin: 0;
+                margin-top: 30px;
+            }
+
+        /* footer
+         *------------------------*/
+        .footer {
+            background-color: dimgray;
+            color: white;
+            margin: 0;
+            padding: 0;
+            /*margin-top: 100px;*/
+            /*height: 100px;*/
+            position: sticky;
+            position: -webkit-sticky;
+            bottom: 10px;
+            opacity: 0.5;
+        }
+
+            .footer > .row1 {
+                margin: 30px;
+                /*margin-bottom: 50px;*/
+            }
+
+            .footer > .row2 {
+                margin: 30px;
+                margin-bottom: 50px;
+            }
+    </style>
+
+    <link href="test.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="header">
+        <p class="row1">header1</p>
+        <p class="row2">header2</p>
+    </div>
+
+    <div class="text">
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+        test test test test test test test test test test test test test test test test test test test test<br />
+    </div>
+
+    <div class="footer">
+        <p class="row1">footer1</p>
+        <p class="row2">footer2</p>
+    </div>
+
+    <div class="controller scroll-controller"></div>
+
+    <script type="text/javascript" src="./lib/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../jquery.scrollFixed.js"></script>
+    <script type="text/javascript" src="./test.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            initial('.header, .footer');
+        });
+
+    </script>
+
+</body>
+</html>

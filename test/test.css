@@ -1,0 +1,109 @@
+﻿body {
+    font-family: Meiryo;
+    font-size: 10pt;
+}
+
+.container {
+    overflow-y: auto;
+    height: 500px;
+    width: 650px;
+    margin: 50px auto auto 20px;
+    border: 2px solid #ed7d31;
+    padding: 10px;
+    position: relative;
+}
+
+
+.sticky-container {
+    border: 1px solid silver;
+    background-color: #ffe699;
+}
+
+.sticky-dummy {
+    width: 600px;
+}
+
+.sticky-item {
+    position: sticky;
+    border: 1px solid #00b0f0;
+    background-color: #ddebf7;
+}
+.sticky-container:nth-child(even) .sticky-item {
+    background-color: turquoise;
+}
+
+.scrollFixed {
+    color: red;
+}
+
+
+.controller {
+    background-color: dimgray;
+    border: 2px solid white;
+    opacity: 0.8;
+    color: #fff;
+    padding: 5px 10px 10px 5px;
+    line-height: 20px;
+    font-size: 8pt;
+}
+.controller-position {
+    height: 20px;
+    margin: 0;
+}
+.controller > table:last-of-type {
+    margin-bottom: 20px;
+}
+.controller-footer {
+    position: sticky;
+    bottom: 10px;
+    background-color: silver;
+    padding: 10px;
+}
+
+.scroll-controller input {
+    width: 50px;
+    font-size: 8pt;
+}
+.controller.scroll-controller {
+    width: 100px;
+    height: 85px;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+}
+
+
+.condition {
+    width: 300px;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+}
+
+.condition-title {
+    font-size: 1em;
+    color: white;
+    margin: 0;
+}
+
+.condition-table {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+    .condition-table, .condition-table > tbody > tr > th,
+    .condition-table, .condition-table > tbody > tr > td {
+        border: 1px solid whitesmoke;
+        border-collapse: collapse;
+    }
+
+        .condition-table th {
+            text-align: left;
+        }
+
+        .condition-table input[type=text] {
+            width: 50px;
+        }
