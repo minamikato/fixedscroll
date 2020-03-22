@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ScrollFixed Overflow Sample</title>
+
+    <link href="test.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        .sticky-container {
+            height:400px;
+            overflow:auto;
+        }
+
+    </style>
+</head>
+<body>
+    <!--<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />-->
+
+    <div class="sticky-container nonested">
+        <h1 class="sticky-item" style="top:0px;">test top</h1>
+
+        <div class="sticky-dummy">
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+            test test test test test test test test test test test test test test test test test test test test<br />
+        </div>
+
+        <h1 class="sticky-item" style="bottom:0px;">test bottom</h1>
+    </div>
+    <div class="controller scroll-controller container" style="margin-top:0; position:static; display:inline-block;"></div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <div class="sticky-container nestedParent" style="padding:50px; height:300px;">
+        <div style="height:500px;"></div>
+        <div class="sticky-container nestedChild" style="height:300px;">
+            <h1 class="sticky-item" style="top:0px;">test top</h1>
+
+            <div class="sticky-dummy">
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+                test test test test test test test test test test test test test test test test test test test test<br />
+            </div>
+
+            <h1 class="sticky-item" style="top:auto; bottom:0px;">test bottom</h1>
+        </div>
+
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    </div>
+
+    <div class="controller scroll-controller nestedParent" style="position:static; display:inline-block;"></div>
+    <div class="controller scroll-controller nestedChild" style="position:static; display:inline-block;"></div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <div class="controller scroll-controller window"></div>
+
+    <script type="text/javascript" src="./lib/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../jquery.scrollFixed.js"></script>
+    <script type="text/javascript" src="./test.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            initial('.sticky-item');
+
+            //スクロールコントローラー作成
+            initScrollController($('.scroll-controller.container'), $('.sticky-container.nonested'), false);
+            initScrollController($('.scroll-controller.nestedParent'), $('.sticky-container.nestedParent'), false, 'parent');
+            initScrollController($('.scroll-controller.nestedChild'), $('.sticky-container.nestedChild'), false, 'child');
+        });
+
+    </script>
+
+</body>
+</html>

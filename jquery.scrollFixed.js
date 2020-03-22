@@ -132,11 +132,82 @@
         }
 
         var overflow = $(node).css('overflow-y');
-        if (overflow == 'scroll' || overflow == 'auto') {
+        if (overflow == 'scroll') {
+            return node;
+        }
+        if (overflow == 'auto' && node.scrollHeight > node.offsetHeight) {
             return node;
         }
 
         return _getScrollableParent(node.parentNode);
+    }
+
+    function _getScollableParents(node) {
+        var list = [];
+        var target = node;
+
+        while (target && target != window) {
+
+            var parent = _getScrollableParent(target);
+            list.push(parent);
+
+            target = parent.parentNode;
+        }
+
+        return list;
+    }
+    function equals(obj1, obj2, windowEqualsBody) {
+
+        var elm1 = obj1;
+        if (obj1 instanceof jQuery) elm1 = obj1[0];
+
+        var elm2 = obj2;
+        if (obj2 instanceof jQuery) elm2 = obj2[0];
+
+        if (elm1 == elm2) return true;
+
+        if (!windowEqualsBody) return false;
+
+        var win1 = elm1 == window || elm1 == document.body;
+        var win2 = elm2 == window || elm2 == document.body;
+
+        return win1 == win2;
+    }
+
+    function add(cssText, num) {
+        if (cssText == 'auto') return cssText;
+
+        return parseNumeric(cssText) + num;
+    }
+    function isActive($obj, perfect) {
+        var rect = $obj[0].getBoundingClientRect();
+
+        var et = ~~(rect.top || 0);
+        var eh = ~~($obj.outerHeight() || 0);
+
+        $obj.attr('data-et', et);
+
+        var $parent = $obj.parent();
+
+        var pt, ph;
+        if ($parent[0].tagName.toLowerCase() == 'body') {
+            pt = 0;
+            ph = $(window).height();
+
+        } else {
+            var parentRect = $parent[0].getBoundingClientRect();
+            pt = parentRect.top;
+            ph = $parent.outerHeight();
+        }
+
+        if (perfect) {
+            return (pt <= et && (et + eh) <= (pt + ph));
+        }
+        else if ((et + eh) >= pt && et <= (pt + ph)) {
+            return true;
+        }
+
+        return false;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -229,6 +300,16 @@
      */
     var StickyParent = (function () {
 
+        var _events = [];
+
+        function callScroll(sender, overflowMode) {
+            for (var i = 0; i < _events.length; i++) {
+                if (equals(_events[i].key, sender) == false) continue;
+
+                _events[i].behavior._callScroll.apply(_events[i].behavior, [overflowMode]);
+            }
+        }
+
         var StickyParent = function (parent) {
             this.fixedTimerId = null;
             this.enabled = false;
@@ -236,6 +317,8 @@
             this.$parent = $(parent);
             this.isWindow = this.$parent.length > 0 && this.$parent[0] == window;
             this.$parentObj = this.isWindow ? $(document.body) : this.$parent;
+
+            this.parents = _getScollableParents(this.$parentObj[0]);
 
             this.stickies = [];
         }
@@ -249,8 +332,20 @@
             if (!this.enabled) {
                 //親コンテナのスクロールイベントを設定
                 this.$parent.off('scroll.scrollFixed');
-                this.$parent.on('scroll.scrollFixed', function () { parent._callScroll(); });
+                this.$parent.on('scroll.scrollFixed', function () { callScroll(this); });
+
+                _events.push({ key: this.$parent, behavior: parent });
+
                 this.enabled = true;
+
+                //親にさかのぼってイベント設定
+                for (var i = 0; i < this.parents.length; i++) {
+                    var $p = $(this.parents[i]);
+                    $p.off('scroll.scrollFixedOverflow');
+                    $p.on('scroll.scrollFixedOverflow', function () { callScroll(this, true); });
+
+                    _events.push({ key: $p, behavior: parent });
+                }
             }
         }
 
@@ -278,7 +373,7 @@
         /**
          * スクロールイベントを処理(呼び出し部)
          */
-        StickyParent.prototype._callScroll = function () {
+        StickyParent.prototype._callScroll = function (overflowMode) {
 
             var parent = this;
 
@@ -292,7 +387,10 @@
             this.fixedTimerId = setTimeout(function () {
                 var scrollTop = parent.scrollTop();
                 for (var i = 0; i < parent.stickies.length; i++) {
-                    parent.stickies[i]._scroll(scrollTop);
+
+                    var sticky = parent.stickies[i];
+
+                    sticky._scroll(scrollTop);
                 }
 
                 parent._clearTimer();
@@ -306,27 +404,63 @@
             this.fixedTimerId = null;
         }
         StickyParent.prototype.equals = function (obj) {
-
-            var elm = obj;
-            if (obj instanceof jQuery) elm = obj[0];
-
-            if (this.isWindow) if (this.$parentObj[0] == elm) return true;
-
-            return this.$parent[0] == elm;
+            return equals(this.$parent, obj);
         }
         StickyParent.prototype.getOffset = function () {
-            var rec = this.$parentObj[0].getBoundingClientRect();
+            //var rec = this.$parentObj[0].getBoundingClientRect();
 
+            //return {
+            //    top: rec.top + parseNumeric(this.$parentObj.css('border-top-width')),
+            //    left: rec.left + parseNumeric(this.$parentObj.css('border-left-width')),
+            //    height: rec.height,
+            //    innerHeight: this.$parent.height(),
+            //    scrollHeight: this.$parentObj[0].scrollHeight,
+            //};
+
+            var offset = this.$parentObj.offset();
             return {
-                top: rec.top + parseNumeric(this.$parentObj.css('border-top-width')),
-                left: rec.left + parseNumeric(this.$parentObj.css('border-left-width')),
-                height: rec.height,
+                top: offset.top + parseNumeric(this.$parentObj.css('border-top-width')),
+                left: offset.left + parseNumeric(this.$parentObj.css('border-left-width')),
+                height: this.$parent.height(),
                 innerHeight: this.$parent.height(),
+                outerHeight: this.$parent.outerHeight(),
                 scrollHeight: this.$parentObj[0].scrollHeight,
             };
         }
+        StickyParent.prototype._getOverScrollTop = function () {
+            if (this.isWindow) return 0;
+
+            //さらに上の要素のスクロールTOP
+            var exists = false;
+            var scrollTop = 0;
+            for (var i = 0; i < this.parents.length; i++) {
+                var $target = $(this.parents[i]);
+
+                if (this.equals($target)) {
+                    exists = true;
+                    continue;
+                }
+                if (exists == false) continue;
+
+                var scTop = $target.scrollTop();
+
+                scrollTop += scTop;
+            }
+            return scrollTop;
+        }
         StickyParent.prototype.getHeight = function () {
             return this.isWindow ? window.innerHeight : this.$parentObj.height();
+        }
+
+        StickyParent.prototype.dispose = function () {
+            //イベント処理対象から削除
+            _events = _events.filter(function (ev) {
+                return equals(_events[i].behavior, this) == false;
+            });
+        }
+
+        StickyParent.prototype.hasMulti = function () {
+            return this.parents.length > 1;
         }
 
         return StickyParent;
@@ -495,8 +629,12 @@
                 this.stickyPosition.fixedLeft = this.initStyles.offsetLeft;
             }
 
-            var containerWinOffset = this.$container[0].getBoundingClientRect();
             var parentWinOffset = this.parent.getOffset();
+
+            var containerWinOffset = {
+                top: this.$container.offset().top,
+                height: this.$container.height()
+            };
 
             if (this.stickyPosition.isTop) {
                 //謎の計算式です
@@ -506,6 +644,7 @@
                 this.stickyPosition.fixedTop = this.initStyles.top;
 
                 this.stickyOffset.top = Math.floor(this.initStyles.offsetTop + parentScrollTop - this.initStyles.top);
+
                 this.stickyOffset.bottom = Math.floor(containerWinOffset.top + parentScrollTop + this.$container.height()
                     - this.initStyles.height - this.initStyles.top - this.initStyles.marginBottom
                     - parseNumeric(this.$ctrl.css('border-top-width')) - parseNumeric(this.$ctrl.css('border-bottom-width')));
@@ -529,12 +668,17 @@
                 this.stickyOffset.bottom = parentWinOffset.scrollHeight + this.initStyles.bottom;
 
                 if (this.parent.isWindow) {
-                    this.stickyOffset.bottom -= parentWinOffset.innerHeight + childWinOffset.height - this.lastChildInfo.marginBottom;
+                    this.stickyOffset.bottom -= parentWinOffset.height + childWinOffset.height - this.lastChildInfo.marginBottom;
                 }
                 if (this.parent.isWindow == false) {
-                    //スクロール可能な親がwindowでない場合
-                    this.stickyPosition.fixedBottom += containerWinOffset.top;
-                    this.stickyOffset.bottom -= containerWinOffset.height + parentWinOffset.top - parseNumeric(this.$container.css('border-bottom-width'));
+                        //スクロール可能な親がwindowでない場合
+                    if (this.$container.css('position') == 'fixed') {
+                        this.stickyPosition.fixedBottom += containerWinOffset.top;
+                        this.stickyOffset.bottom -= containerWinOffset.height + parentWinOffset.top - parseNumeric(this.$container.css('border-bottom-width'));
+                    } else {
+                        this.stickyPosition.fixedBottom += $(window).height() - containerWinOffset.top - containerWinOffset.height;
+                        this.stickyOffset.bottom -= containerWinOffset.height + containerWinOffset.top + parentWinOffset.top - parseNumeric(this.$container.css('border-bottom-width'));
+                    }
                 }
             }
 
@@ -563,22 +707,26 @@
             if (this.enabled == false) return;
 
             if (this.stickyOffset.top <= scrollTop && scrollTop <= this.stickyOffset.bottom) {
-                if (this.stickyMode == 'absolute') {
-                    //固定開始
-                    this._startFixed();
+                //固定開始
+                this._startFixed();
 
+                if (isActive(this.$ctrl, true) == false) {
+                    //現在の位置で固定
+                    this._startOverflow();
+                }
+
+                if (this.stickyMode != 'fixed') {
                     //イベント呼び出し
                     if (this.settings.stickyStart) {
                         this.settings.stickyStart(this.$ctrl);
                     }
                 }
-            }
-            else {
+            } else {
                 //固定解除
                 var bottomFix = scrollTop >= this.stickyOffset.bottom;
                 this._clearFixed(bottomFix);
 
-                if (this.stickyMode == 'fixed') {
+                if (this.stickyMode != 'absolute') {
                     //イベント呼び出し
                     if (this.settings.stickyEnd) {
                         this.settings.stickyEnd(this.$ctrl);
@@ -590,23 +738,52 @@
         /**
          * 固定表示を開始
          */
-        Sticky.prototype._startFixed = function() {
+        Sticky.prototype._startFixed = function () {
 
             this.stickyMode = 'fixed';
+
+            var top = this.stickyPosition.fixedTop;
+            var bottom = this.stickyPosition.fixedBottom;
+
+            if (this.parent.hasMulti() && this.$container.css('position') != 'fixed') {
+
+                var offsetTop = this.parent._getOverScrollTop();
+
+                top = add(this.stickyPosition.fixedTop, -offsetTop);
+                bottom = add(this.stickyPosition.fixedBottom, -offsetTop);
+            }
 
             //固定
             this.$ctrl.addClass(this.settings.stickyCss)
                 .css('position', 'fixed')
                 .css('left', this.stickyPosition.fixedLeft)
-                .css('top', this.stickyPosition.fixedTop)
-                .css('bottom', this.stickyPosition.fixedBottom);
+                .css('top', top)
+                .css('bottom', bottom);
+        }
+
+        /**
+         * 現在の位置で固定
+         */
+        Sticky.prototype._startOverflow = function () {
+
+            this.stickyMode = 'overflow';
+
+            var top = (this.stickyPosition.fixedTop == 'auto' ? 'auto' : this.initStyles.top + this.parent.$parent.scrollTop());
+            var bottom = (this.stickyPosition.fixedBottom == 'auto' ? 'auto' : this.initStyles.bottom - this.parent.$parent.scrollTop());
+
+            //固定
+            this.$ctrl.removeClass(this.settings.stickyCss)
+                .css('position', 'absolute')
+                .css('left', 'auto')
+                .css('top', top)
+                .css('bottom', bottom);
         }
 
         /**
          * 固定表示を解除
          * @param {Boolean} bottomFix true:コンテナの下で固定する false:コンテナの上で固定する
          */
-        Sticky.prototype._clearFixed = function(bottomFix) {
+        Sticky.prototype._clearFixed = function (bottomFix) {
 
             this.stickyMode = 'absolute';
 
@@ -659,7 +836,6 @@
             } else {
 
                 var scrollBarWidth = this.$container[0].offsetWidth - this.$container[0].clientWidth;
-                if (scrollBarWidth != parentBorderWidth) scrollBarWidth -= parentBorderWidth;
 
                 this.$ctrl.width(this.$container.width() - scrollBarWidth
                     - this.initStyles.paddingLeft - this.initStyles.paddingRight);

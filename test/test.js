@@ -1,7 +1,7 @@
 ﻿function initial(selector) {
 
     //スクロールコントローラー作成
-    initScrollController($('.scroll-controller'), $(window), true);
+    initScrollController($('.scroll-controller.window'), $(window), true, 'window');
 
     createScrollFixed();
     $('.chkImportant').on('click', function () {
@@ -151,18 +151,26 @@ function create($container) {
         $('<div />').addClass('sticky-dummy').text(text).appendTo($content);
     }
 }
-function initScrollController($controller, $container, isWindow) {
+function initScrollController($controller, $container, isWindow, title) {
 
     if ($controller.children().length == 0) {
         $controller[0].innerHTML =
+            (title ? '<h1>' + title + '</h1>' : '') +
             '<input type="text" class="controller-position" /> *enter' +
             '<br />' +
-            '<input type="button" onmousedown="scrollStart(this, -1);" onmouseup="scrollEnd(this);" value="△1" />' +
-            '<input type="button" onmousedown="scrollStart(this, 1);" onmouseup="scrollEnd(this);" value="▽1" />' +
+            '<input type="button" onmousedown="scrollStart(this, -1);" value="△1" />' +
+            '<input type="button" onmousedown="scrollStart(this, 1);" value="▽1" />' +
             '<br />' +
-            '<input type="button" onmousedown="scrollStart(this, -10);" onmouseup="scrollEnd(this);" value="△10" />' +
-            '<input type="button" onmousedown="scrollStart(this, 10);" onmouseup="scrollEnd(this);" value="▽10" />' +
+            '<input type="button" onmousedown="scrollStart(this, -10);" value="△10" />' +
+            '<input type="button" onmousedown="scrollStart(this, 10);" value="▽10" />' +
             '<label><input type="checkbox" class="chkImportant" style="width:auto;" /> important</label>';
+
+        $controller.find('input:button').on('mouseup', function () {
+            scrollEnd(this);
+        });
+        $controller.find('input:button').on('mouseleave', function () {
+            scrollEnd(this);
+        });
     }
 
     var $window = $(window);
@@ -172,26 +180,26 @@ function initScrollController($controller, $container, isWindow) {
     $pos.on('keydown.scrollPos', scrollInput);
 
     //スクロール位置表示イベント
-    $window.off('scroll.scrollPos');
-    $container.off('scroll.scrollPos');
-
     var $scrollTarget = isWindow ? $window : $container;
 
     $pos.val($scrollTarget.scrollTop());
 
-    $scrollTarget.on('scroll.scrollPos', dispScrollPos);
+    if ($controller[0].$target) {
+        $controller[0].$target.off('scroll.scrollPos');
+    }
+    $scrollTarget.on('scroll.scrollPos', function () {
+        dispScrollPos($pos, $container);
+    });
     $controller[0].$target = $scrollTarget;
 }
 
-function dispScrollPos(event) {
-    var parent = event.delegateTarget;
-    var $parent = $(parent);
-
-    $('.controller-position').val($parent.scrollTop());
+function dispScrollPos($controller, $container) {
+    $controller.val($container.scrollTop());
 }
 
-function scroll(value, absolute) {
-    var $target = $('.scroll-controller')[0].$target;
+function scroll($ctrl, value, absolute) {
+    var $controller = $ctrl.closest('.scroll-controller');
+    var $target = $controller[0].$target;
 
     if (absolute) {
         $target.scrollTop(value);
@@ -209,7 +217,7 @@ function scrollTick(sender, value, interval) {
 
     scrollEnd(sender);
 
-    scroll(value);
+    scroll($(sender), value);
 
     sender.scrollTimer = setTimeout(function () {
 
@@ -233,6 +241,6 @@ function scrollInput() {
     if (event.key === 'Enter') {
         var $input = $(event.target);
 
-        scroll($input.val(), true);
+        scroll($input, $input.val(), true);
     }
 }

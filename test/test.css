@@ -66,11 +66,15 @@
 }
 .controller.scroll-controller {
     width: 100px;
-    height: 85px;
+    height: 105px;
     position: fixed;
     right: 15px;
     bottom: 15px;
 }
+    .controller.scroll-controller h1 {
+        font-size: 1em;
+        margin:0;
+    }
 
 
 .condition {
